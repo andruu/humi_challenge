@@ -8,6 +8,9 @@ class Employee < ApplicationRecord
   validates :sin, presence: true, length: { is: 9 }
   validates :hire_date, presence: true
 
+  validates_date :dob, :before => lambda { 18.years.ago }
+  validates_date :hire_date, :on_or_before => lambda { Date.current }
+
   def sin
     decrypt_sin
   end

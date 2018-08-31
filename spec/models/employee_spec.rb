@@ -57,4 +57,14 @@ RSpec.describe Employee, type: :model do
     expect(subject.encrypted_sin).not_to be_empty
     expect(subject.sin).to eq sin
   end
+
+  it "is not valid without a valid dob" do
+    subject.dob = Date.today + 1
+    expect(subject).to_not be_valid
+  end
+
+  it "is not valid without a valid hire date" do
+    subject.hire_date = Date.today + 1
+    expect(subject).to_not be_valid
+  end
 end
