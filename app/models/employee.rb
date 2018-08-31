@@ -1,6 +1,13 @@
 class Employee < ApplicationRecord
   enum marital_status: [:single, :married, :widowed, :divorced, :separated]
 
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :dob, presence: true
+  validates :marital_status, presence: true
+  validates :sin, presence: true, length: { is: 9 }
+  validates :hire_date, presence: true
+
   def sin
     decrypt_sin
   end
@@ -12,6 +19,8 @@ class Employee < ApplicationRecord
   private
 
   def encrypt_sin(value)
+    return write_attribute(:encrypted_sin, nil) if value == nil
+
     encrypted_data = ActiveSupport::MessageEncryptor
       .new(encryption_key)
       .encrypt_and_sign(value)
@@ -20,6 +29,8 @@ class Employee < ApplicationRecord
   end
 
   def decrypt_sin
+    return nil if read_attribute(:encrypted_sin) == nil
+
     ActiveSupport::MessageEncryptor
       .new(encryption_key)
       .decrypt_and_verify(read_attribute(:encrypted_sin))
