@@ -4,21 +4,21 @@ class Employee < ApplicationRecord
   def sin
     decrypt_sin
   end
-  
+
   def sin=(value)
     encrypt_sin(value)
   end
-  
+
   private
-  
+
   def encrypt_sin(value)
     encrypted_data = ActiveSupport::MessageEncryptor
       .new(encryption_key)
       .encrypt_and_sign(value)
-      
+
     write_attribute(:encrypted_sin, encrypted_data)
   end
-  
+
   def decrypt_sin
     ActiveSupport::MessageEncryptor
       .new(encryption_key)
