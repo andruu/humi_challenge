@@ -8,7 +8,7 @@ RSpec.describe Employee, type: :model do
       dob: 'april 5 1985',
       marital_status: 0,
       sin: '123456789',
-      hire_date: 'last_month'.to_date
+      hire_date: Date.current - 10
     )
   }
 
